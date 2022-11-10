@@ -1,0 +1,41 @@
+// C++ code
+//
+#include<Servo.h>
+Servo servo;
+int pr=A5,pir=2,led=12,trig=3,echo=4;
+void setup()
+{
+  pinMode(pir,INPUT);
+  pinMode(pr,INPUT);
+  pinMode(led,OUTPUT);
+  pinMode(trig,OUTPUT);
+  pinMode(echo,INPUT);
+  Serial.begin(9600);
+  servo.attach(9);
+}
+
+void loop()
+{
+  int m=digitalRead(pir);
+  int l=analogRead(pr);
+  Serial.println(l);
+  if(m==1)
+  {
+    if(l<100)
+    {
+      digitalWrite(led,HIGH); }
+    else {
+      digitalWrite(led,LOW); }
+  }
+  digitalWrite(trig,0);
+  digitalWrite(trig,1);
+  delayMicroseconds(10);
+  digitalWrite(trig,0);
+  float dur=pulseIn(echo,HIGH);
+  float dis=(dur*0.0343)/2;
+  if(dis<50)
+  {
+    servo.write(90); }
+  else{
+    servo.write(0); }
+}
